@@ -1,6 +1,6 @@
 //example from the material of a graduation discipline 
 package main
-
+import "fmt"
 const N = 4
 
 type Packet struct {
@@ -23,7 +23,7 @@ func sender(id int, send chan Packet) {
 func receiver(id int, rec chan Packet) {
 	for {
 		p := <-rec
-		println("Pacote recebido : ",
+		fmt.Println("Pacote recebido : ",
 		id, p.sender, p.receiver, p.message)
 	}
 }
@@ -49,7 +49,7 @@ func main() {
 
 func node(id int, hasToken bool, send chan Packet,
 		  receive chan Packet, ringMy chan Token, ringNext chan Token){
-			  println("node ",id)
+			  fmt.Println("node ",id)
 			  go sender(id, send)
 			  go receiver(id, receive)
 			  for {
