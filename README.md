@@ -1,2 +1,2 @@
 # College
-This repository contains college projects
+This repository contains small college projects and exercises
