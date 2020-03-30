@@ -1,5 +1,4 @@
 //example from the material of a graduation discipline 
-
 package main
 
 const N = 4
