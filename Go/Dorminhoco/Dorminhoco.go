@@ -9,7 +9,6 @@ package main
 import (
 	"fmt"
 	"math/rand"
-	//"sync"
 	"time"
 )
 
@@ -20,7 +19,6 @@ const BGC_NUMBER = 4
 const TOTAL_CARDS = 13
 var suits = []string{"hearts", "diamonds", "spades"}
 var names = []string{"John", "Emma", "Lou", "Mia"}
-
 //structs
 type Card struct {
 	number int
@@ -50,7 +48,6 @@ func (p Player) HasJocker() bool {
 type Move struct {
 	yourTurn bool
 	player Player
-	pass Card
 }
 
 var cards = []Card { //starts with joker
@@ -124,13 +121,13 @@ func main(){
 	var chanRing [NUM_PLAYERS]chan Move
 	var chanPass [NUM_PLAYERS]chan Pass
 	for i:=0;i<NUM_PLAYERS; i++{
+		chanRing[i] = make (chan Move)
+		chanPass[i] = make (chan Pass)
 		var fst = false
 		if (i==0){
 			fst = true
 		}
 		fillMove(chanRing[i],players[i], fst)
-		chanRing[i] = make (chan Move)
-		chanPass[i] = make (chan Pass)
 	}
 
 	go play(chanPass[0], chanRing[0], chanRing[1])
