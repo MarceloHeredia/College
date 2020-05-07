@@ -32,7 +32,7 @@ type Report struct {
 }
 
 
-const S = 10 //rede = SxS (S² >= N)
+const S = 4//rede = SxS (S² >= N)
 const N = 9 //numero de nodos
 const RANGE = 1 //alcance de visão em todas direcoes do nodo
 
@@ -41,7 +41,7 @@ var end chan bool
 var nodes [N]Node
 func main(){
 	rand.Seed(time.Now().UnixNano())
-	rt := make (chan Report)
+	rt := make (chan Report, N)
 
 	//start nodes
 	for i:=0; i<N; i++{
@@ -148,18 +148,22 @@ func processNodes (id int, ret chan Report){
                 for j:=0; j<len(ngb); j++{
                     nodes[ngb[j]].channel <- Message{nodes[id].msg.id, nodes[id].msg.origin, nodes[id].msg.text, nodes[id].msg.steps}
                 }
-            }
+			}
+			randomizeMovement(nodes[id].pos)
         }
     }()
     go func(){
-        rcv := <-nodes[id].channel
-        rcv.steps++
-        fmt.Println("Mensagem recebida: ",printMsg(rcv))
-
-        if nodes[id].msg.origin != rcv.origin{//nova msg
-            nodes[id].msg = Message{rcv.id, rcv.origin, rcv.text, rcv.steps}
-            ret <- Report{id, nodes[id].msg.steps}
-        }
+		for{
+        	rcv := <-nodes[id].channel
+	        rcv.steps++
+			
+	        if nodes[id].msg.origin != rcv.origin{//nova msg
+    	        nodes[id].msg = Message{rcv.id, rcv.origin, rcv.text, rcv.steps}
+        	    ret <- Report{id, nodes[id].msg.steps}
+				fmt.Println("Mensagem recebida: ",printMsg(rcv),"\nnodo atual: ",id)
+			}
+			randomizeMovement(nodes[id].pos)
+		}
     }()
 }
 
