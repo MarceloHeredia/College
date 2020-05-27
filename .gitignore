@@ -28,6 +28,7 @@ hs_err_pid*
 # Python #
 .__pycache__/*
 *.pyc
+Python/.vscode/*
 
 # Visual Studio Code #
 .vscode/*
