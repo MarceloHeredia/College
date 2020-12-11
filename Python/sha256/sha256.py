@@ -16,6 +16,7 @@ def populate_blocks(file): #save the chunks in a list
         blocks.append(chunk)
 
 def generate_hash():
+    print(type(blocks))
     hash_obj = SHA256.new()
     hash_obj.update(blocks[-1])
     hn = hash_obj.digest() #gets the last block hash to start the loop
