@@ -1,0 +1,23 @@
+nome -> Marcelo Heredia
+
+
+O programa tem dois modos de execução!
+
+Para executar de forma rápida
+
+quantization <filename.ppm>
+
+Para executar com outra abordagem usando vetores
+
+quantization <filename.ppm> vector
+
+
+Explicação:
+
+No modo de execução rápida, será preenchido um hashmap contendo as frequencias
+de cada RGB. Para a redução de cores será modificado o proprio hashmap, utilizando algumas otimizações para
+que fique mais rapido porém considerando as cores com mais frequencia primeiro
+
+No modo de execução preciso, os conteúdos do hashmap são passados a um vector
+inseridos em ordem decrescente de frequência. A operação de redução é feita no
+vector, fazendo com que os RGBs mais frequentes tenham mais chance de ficar.
