@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/markov.iml" filepath="$PROJECT_DIR$/.idea/markov.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ProcNascMorte.iml" filepath="$PROJECT_DIR$/.idea/ProcNascMorte.iml" />
     </modules>
   </component>
 </project>
