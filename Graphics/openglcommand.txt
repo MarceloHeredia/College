@@ -1,0 +1,1 @@
+-lGLU -lGL -lglfw
