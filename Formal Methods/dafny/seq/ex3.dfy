@@ -18,14 +18,17 @@ function Sum(xs: seq<int>): int
     xs[0] + Sum(xs[1..])
 }
 
-method Somatorio(a: array<int>) returns (x : int)
-ensures x == Sum(a[..])
+method Somatorio(a: array<int>) returns (s : int)
+ensures s == Sum(a[..])
 {
-    x := 0;
+    s := 0;
     var i := 0;
     while i < a.Length
     decreases a.Length - i
+    invariant 0 <= i <= a.Length
+    invariant s == Sum(a[a.Length-i..])
     {
-        x := x + a[i];
+        s := s + a[a.Length - i - 1];
+        i := i + 1;
     }
 }
