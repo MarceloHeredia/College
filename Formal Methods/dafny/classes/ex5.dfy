@@ -1,41 +1,39 @@
-class {:autocontracts} FilaNat
+class {:autocontracts} FilaNatLimitada
 {
+    ghost const TamanhoMaximo: nat;
     ghost var Conteudo: seq<nat>;
 
     var a: array<nat>;
+    var max: nat;
     var tail: nat;
 
     predicate Valid()
     {
-        a.Length > 0
-        && 0 <= tail < a.Length
+        max > 0
+        && a.Length == max
+        && TamanhoMaximo == max
+        && 0 <= tail <= max
         && Conteudo == a[0..tail]
-        
     }
 
-    constructor()
+    constructor(n: nat)
+    requires n > 0
+    ensures TamanhoMaximo == n
     ensures Conteudo == []
     {
-        a := new nat[5];
+        max := n;
+        a := new nat[n];
         tail := 0;
 
         //specification
+        TamanhoMaximo := max;
         Conteudo := [];
     }
 
     method Enfileirar(e: nat)
+    requires |Conteudo| < TamanhoMaximo
     ensures Conteudo == old(Conteudo) + [e]
     {
-        if tail == a.Length
-        {
-            var novo := new nat[2*a.Length];
-            forall i | 0 <= i < a.Length
-            {
-                novo[i] := a[i];
-            }
-            a := novo;
-        }
-
         a[tail] := e;
         tail := tail + 1;
 
@@ -65,11 +63,18 @@ class {:autocontracts} FilaNat
         n := tail;
     }
 
+    method QuantidadeMaxima() returns (n: nat)
+    ensures n == TamanhoMaximo
+    ensures Conteudo == old(Conteudo)
+    {
+        return max;
+    }
+
 }
 
 method Main()
 {
-    var fila := new FilaNat();
+    var fila := new FilaNatLimitada(5);
     fila.Enfileirar(1);
     fila.Enfileirar(2);
     assert fila.Conteudo == [1,2];

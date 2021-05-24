@@ -12,7 +12,7 @@ method Main()
     assert s == [0,1,2,3,4];
     assert |s| == a.Length;
 
-    assert a[1..3] == [1,2];
+    assert a[0..2] == [0,1];
 
     assert 10 !in a[..];
 
